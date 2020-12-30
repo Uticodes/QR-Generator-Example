@@ -85,9 +85,6 @@ class MainActivity : AppCompatActivity() {
                     //show QR ImageView
                     qrImage.isVisible = true
 
-                    //show save QR code button
-                    //btnSaveToDevice.isVisible = true
-
                     //Close Soft Keyboard
                     hideKeyboard()
 

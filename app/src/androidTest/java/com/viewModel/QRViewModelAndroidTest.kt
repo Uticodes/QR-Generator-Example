@@ -8,9 +8,10 @@ import android.graphics.Bitmap
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.core.app.ApplicationProvider
-import com.example.qr_generator_example.MainCoroutineRule
-import com.example.qr_generator_example.getOrAwaitValueTest
+import com.MainAndroidCoroutineRule
 import com.example.qr_generator_example.utils.Resource
+import com.getOrAwaitValueAndroidTest
+
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -25,7 +26,7 @@ import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
 //@RunWith(AndroidJUnit4::class)
-class QRViewModelTest : TestCase(){
+class QRViewModelAndroidTest : TestCase(){
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -33,7 +34,7 @@ class QRViewModelTest : TestCase(){
     var instantExecutorRule: InstantTaskExecutorRule? = InstantTaskExecutorRule()
 
     @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+    var mainCoroutineRule = MainAndroidCoroutineRule()
 
     @Mock
     private var qrViewModel: QRViewModel? = null
@@ -73,7 +74,7 @@ class QRViewModelTest : TestCase(){
     fun testIfUrlIsEmptyShowError() {
         qrViewModel?.generateQRCode("url")
         assertEquals("", "")
-        val value = qrViewModel?.generateStatus?.getOrAwaitValueTest()
+        val value = qrViewModel?.generateStatus?.getOrAwaitValueAndroidTest()
         //assertThat(value.).isEqualTo(Resource.Status.ERROR)
 
         //assertThat(value.getContentIfNotHandled()?.status.toString(), Matcher<> macher).isEqualTo(Resource.Status.ERROR)
