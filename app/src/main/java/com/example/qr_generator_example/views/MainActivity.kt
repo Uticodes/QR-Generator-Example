@@ -23,11 +23,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.qr_generator_example.R
 import com.example.qr_generator_example.hideKeyboard
 import com.example.qr_generator_example.permissionCheck
+import com.example.qr_generator_example.usecases.GenerateQRCodeUseCase
 import com.example.qr_generator_example.utils.Resource
 import com.example.qr_generator_example.viewModel.QRViewModel
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.ScopeActivity
+import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
 
@@ -38,9 +44,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSaveToDevice: Button
     private lateinit var qrImage: ImageView
     private lateinit var textInput: EditText
-    private lateinit var qrViewModel: QRViewModel
     private lateinit var progressBar: ProgressBar
 
+    // Lazy inject ViewModel
+    private val qrViewModel: QRViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +57,6 @@ class MainActivity : AppCompatActivity() {
         qrImage = findViewById(R.id.qrImageView)
         btnSaveToDevice = findViewById(R.id.btnSaveToDevice)
         progressBar = findViewById(R.id.progress)
-
-        //initialize viewModel
-        qrViewModel= ViewModelProvider(this).get(QRViewModel::class.java)
 
         permissionCheck()
 

@@ -46,7 +46,11 @@ android {
     }
 }
 
+
+
 dependencies {
+    // koin version
+    def koin_version = '2.2.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -68,6 +72,24 @@ dependencies {
     // Activity KTX for viewModels()
     implementation "androidx.activity:activity-ktx:1.1.0"
 
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+
+    // Koin for Kotlin
+    implementation "org.koin:koin-core:$koin_version"
+
+    // Koin Extended & experimental features
+    implementation "org.koin:koin-core-ext:$koin_version"
+
+    // Koin for Unit tests
+    testImplementation "org.koin:koin-test:$koin_version"
+
+    // Koin AndroidX Scope feature
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+
+    // Koin AndroidX ViewModel feature
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
     // Local Unit Tests
     testImplementation 'junit:junit:4.+'
     androidTestImplementation "androidx.test:rules:$androidXTestRulesVersion"
@@ -79,9 +101,10 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+
 
     // Instrumented Unit Tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -1,16 +1,15 @@
 package com.example.qr_generator_example.viewModel
 
-//import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-//import androidx.test.ext.junit.runners.AndroidJUnit4
-
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.core.app.ApplicationProvider
 import com.MainAndroidCoroutineRule
+import com.example.qr_generator_example.usecases.GenerateQRCodeUseCase
 import com.example.qr_generator_example.utils.Resource
 import com.getOrAwaitValueAndroidTest
+import com.google.zxing.MultiFormatWriter
 
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,14 +18,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 
 
 @ExperimentalCoroutinesApi
 //@RunWith(AndroidJUnit4::class)
-class QRViewModelAndroidTest : TestCase(){
+class QRViewModelAndroidTest constructor(val url: String) : TestCase(){
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -36,68 +37,51 @@ class QRViewModelAndroidTest : TestCase(){
     @get:Rule
     var mainCoroutineRule = MainAndroidCoroutineRule()
 
+    private val mockMultiFormatWriter = Mockito.mock(MultiFormatWriter::class.java)
+
+    private val generateQRCodeUseCase = GenerateQRCodeUseCase(mockMultiFormatWriter)
+
     @Mock
-    private var qrViewModel: QRViewModel? = null
-    //private lateinit var qrViewModel: QRViewModel
+    private var useCase = GenerateQRCodeUseCase(mockMultiFormatWriter)
+
     @Mock
-    var observer: Observer<Resource<Bitmap>?>? = null
-    private lateinit var instrumentationCtx: Context
+    private var qrViewModel = QRViewModel(useCase)
+
+
+
+    private val bitmap = Mockito.mock(Bitmap::class.java)
+
 
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         //MockitoAnnotations.initMocks(this)
-        qrViewModel= QRViewModel(ApplicationProvider.getApplicationContext())
+        //qrViewModel= QRViewModel(ApplicationProvider.getApplicationContext())
     }
-
-   /* @Before
-    @Throws(Exception::class)
-    override fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        viewModel = NewsViewModel(apiClient, RxSingleSchedulers.TEST_SCHEDULER)
-        viewModel.getNewsListState().observeForever(observer)
-    }*/
-
-    /*fun setUp() {
-        //instrumentationCtx = ApplicationProvider.getApplicationContext<Context>()
-
-    }*/
 
     @Test
     fun testNull() {
-        `when`(qrViewModel?.generateQRCode("")).thenReturn(null)
-        assertNotNull(qrViewModel?.generateQRCode(""))
-        assertTrue(qrViewModel?.generateQRCode("url").toString(), true)
+
+        qrViewModel.generateQRCode("")
+        verify(useCase).generateQRCode("url", bitmap)
     }
 
     @Test
     fun testIfUrlIsEmptyShowError() {
-        qrViewModel?.generateQRCode("url")
+        qrViewModel.generateQRCode("url")
         assertEquals("", "")
-        val value = qrViewModel?.generateStatus?.getOrAwaitValueAndroidTest()
-        //assertThat(value.).isEqualTo(Resource.Status.ERROR)
+        val value = qrViewModel.generateStatus.getOrAwaitValueAndroidTest()
 
-        //assertThat(value.getContentIfNotHandled()?.status.toString(), Matcher<> macher).isEqualTo(Resource.Status.ERROR)
     }
 
     @Test
     fun testGenerateQRCode() {
 
-        qrViewModel?.generateQRCode("url")
+        qrViewModel.generateQRCode("url")
         assertEquals("url", "url")
-        //assertThat(instrumentationCtx.display).contains("your_package_name")
+        qrViewModel.generateQRCode("url")
+        Mockito.verify(useCase).generateQRCode("url", bitmap)
     }
 
 }
 
-
-
-/*
-class QRViewModelTest : TestCase() {
-
-    val qrViewModel: QRViewModel()
-    fun testGetGenerate() {}
-
-    @Test
-    fun testGenerateQRCode() {}
-}*/

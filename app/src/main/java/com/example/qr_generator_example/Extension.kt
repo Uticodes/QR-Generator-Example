@@ -13,7 +13,7 @@ fun Activity.permissionCheck() {
                     this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
-            !== PackageManager.PERMISSION_GRANTED
+            != PackageManager.PERMISSION_GRANTED
     ) {
         ActivityCompat.requestPermissions(
                 this,
