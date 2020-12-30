@@ -52,35 +52,4 @@ class QRViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-    fun saveQRCode(url: String){
-        viewModelScope.launch(Dispatchers.IO) {
-            val qrgEncoder = QRGEncoder(url, null, QRGContents.Type.TEXT, 150)
-            val bitmap = qrgEncoder.encodeAsBitmap()
-        try {
-            if (url.isNotEmpty()) {
-
-                //qrImage.setImageBitmap(bitmap)
-                var fileName = "QRCode_" + System.currentTimeMillis() + ".jpg"
-                val file = File(Environment.getExternalStorageDirectory(), fileName)
-                file.createNewFile()
-                val saveLocation = file.parent + File.separator
-                fileName = file.name.substring(0, file.name.indexOf("."))
-                QRGSaver.save(saveLocation, fileName, bitmap, QRGContents.ImageType.IMAGE_JPEG)
-                /*Toast.makeText(
-                    this,
-                    "QR Code successfully saved in the external storage!",
-                    Toast.LENGTH_LONG
-            ).show()*/
-            }
-        } catch (e: WriterException) {
-
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-         _generate.postValue(Resource(status = Resource.Status.SUCCESS, data = bitmap, message = "QR code generate and saved successfully"))
-         _generate.postValue(Resource(status = Resource.Status.ERROR, data = bitmap, message = "QR code failed to save"))
-        }
-    }
-
 }

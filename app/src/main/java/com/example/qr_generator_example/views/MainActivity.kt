@@ -100,58 +100,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-       /* btnSaveToDevice.setOnClickListener {
-            saveToFile()
-        }*/
-
     }
-
-    /*private fun saveToFile() {
-
-        if (TextUtils.isEmpty(textInput.text)) {
-            textInput.setError("enter the text or email or link")
-            return
-        }
-        try {
-            qrViewModel.saveQRCode(textInput.text.toString())
-            qrViewModel.generateStatus.observe(this, Observer {
-                //bitmap = it.data
-                when (it.status) {
-                    Resource.Status.LOADING -> progressBar.isVisible = true
-                    Resource.Status.SUCCESS -> {
-                        qrImage.setImageBitmap(it.data)
-                        Toast.makeText(this, it.message,Toast.LENGTH_LONG).show()
-                    }
-                    Resource . Status . ERROR -> {
-                        progressBar.isVisible = false
-                        //Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                        println(it.message!!)
-                    }
-                }
-
-            })
-
-
-           *//* val qrgEncoder = QRGEncoder(textInput.text.toString(), null, QRGContents.Type.TEXT, 150)
-            val bitmap = qrgEncoder.encodeAsBitmap()
-            qrImage.setImageBitmap(bitmap)
-            var fileName = "QRCode_" + System.currentTimeMillis() + ".jpg"
-            val file = File(Environment.getExternalStorageDirectory(), fileName)
-            file.createNewFile()
-            val saveLocation = file.parent + File.separator
-            fileName = file.name.substring(0, file.name.indexOf("."))
-            QRGSaver.save(saveLocation, fileName, bitmap, QRGContents.ImageType.IMAGE_JPEG)
-            Toast.makeText(
-                this,
-                "QR Code successfully saved in the external storage!",
-                Toast.LENGTH_LONG
-            ).show()*//*
-        } catch (e: WriterException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }*/
 
     override fun onRequestPermissionsResult(
             requestCode: Int,
